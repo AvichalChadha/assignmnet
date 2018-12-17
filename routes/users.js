@@ -61,7 +61,6 @@ router.get('/user', function(req, res){
 
 router.delete('/user/:id', function(req, res){
 	var id = req.params.id;
-	console.log(id)
 	data_model.findByIdAndRemove(id, function(err, user){
 		if(err){
 			console.log(err)
@@ -69,6 +68,40 @@ router.delete('/user/:id', function(req, res){
 		}
 		else{
 			res.send(`User with ${id} deleted`)
+		}
+	})
+})
+
+
+
+
+router.get('/user/:id', function(req, res){
+	const  id = req.params.id;
+	data_model.findById(id, function(err, user){
+		if(err){
+			console.log(err)
+			res.json({msg:"Some error happened"})
+		}
+		else{
+			res.send(user)
+		}
+	})
+})
+
+
+router.put('/user/:id', function(req, res){
+	const data = req.body
+	const  id = req.params.id;
+	const first_name = data.first_name
+	const last_name = data.last_name
+	const age = data.age
+	data_model.findByIdAndUpdate(id, {first_name: first_name, last_name:last_name, age:age }, function(err, user){
+		if(err){
+			console.log(err)
+			res.json({msg:"Some error happened"})
+		}
+		else{
+			res.json({msg:"Details changes successfully"})
 		}
 	})
 })
